@@ -1,0 +1,115 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+{% block title %}{% endblock %}
+{% block css %}{% endblock %}
+
+{% block content %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">还书</h1>
+</div>
+<p>输入卡号，查询该借书证所有已借书籍；输入卡号和书号进行还书。</p><br>
+<form action="/return_book/" method="post">{% csrf_token %}
+  <div class="form-row" >
+    <div class="col-md-4 mb-3">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">卡号</span>
+        </div>
+        <input type="text" class="form-control" id="CardNo" name="cno" placeholder="cno" aria-describedby="inputGroupPrepend" required>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">书号</span>
+        </div>
+        <input type="text" class="form-control" id="BookNo" name="bno" placeholder="bno" aria-describedby="inputGroupPrepend">
+      </div>
+    </div>
+    </div>
+
+  <input class="btn btn-primary" type="submit" value="查询" name="btn_return_record">
+    <input class="btn btn-warning" type="submit" value="还书" name="btn_return">
+
+    <hr>
+{% if messages %}
+{% for message in messages %}
+{% if message.tags == "success" %}
+<div class="alert alert-success col-md-3">
+    <a href="#" class="close" data-dismiss="alert">
+        &times;
+    </a>
+    <span>{{ message }}</span>
+</div>
+{% else %}
+<div class="alert alert-danger col-md-3">
+    <a href="#" class="close" data-dismiss="alert">
+        &times;
+    </a>
+    <span>{{ message }}</span>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+</form>
+
+<!--search result -->
+{% if card_record %}
+   <div class="table-responsive">
+<table class="table table-striped table-sm">
+  <thead>
+    <th>卡号</th>
+    <th>书号</th>
+    <th>借书时间</th>
+    <th>还书时间</th>
+    <th>管理员id</th>
+  </thead>
+  <tbody>
+  {% for row in card_record %}
+  <tr>
+    <td> {{ row.cno_id }} </td>
+    <td> {{ row.bno_id }} </td>
+    <td> {{ row.borrow_date }} </td>
+      <td> {{ row.return_date}} </td>
+      <td> {{ row.admin_id_id}} </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endif %}
+
+{% if borrow_record %}
+<br/>
+<div class="table-responsive">
+<table class="table table-striped table-sm">
+  <thead>
+    <th>书号</th>
+    <th>类别</th>
+    <th>书名</th>
+    <th>出版社</th>
+    <th>年份</th>
+    <th>作者</th>
+    <th>价格</th>
+    <th>数量</th>
+  </thead>
+  <tbody>
+  {% for row in borrowed_books %}
+  <tr>
+    <td> {{ row.bno }} </td>
+    <td> {{ row.category }} </td>
+    <td> {{ row.title}} </td>
+      <td> {{ row.press}} </td>
+      <td> {{ row.year}} </td>
+      <td> {{ row.author}} </td>
+      <td> {{ row.price}} </td>
+      <td> {{ row.stock}} </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endif %}
+</main>
+{% endblock%}

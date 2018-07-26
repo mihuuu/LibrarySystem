@@ -1,0 +1,130 @@
+{% load staticfiles %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %}Mini Library{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="/static/imgs/cloud.ico"/>
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/index.css' %}" rel="stylesheet">
+      {% block css %}{% endblock %}
+  </head>
+
+  <body>
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/index/">
+          <img src="/static/imgs/book.png" width="30" height="30" class="d-inline-block align-top" alt="">
+            Mini Online Library
+      </a>
+
+      <!--<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">-->
+
+      <ul class="navbar-nav px-3">
+          {% if request.session.is_login %}
+          <li class="nav-item text-nowrap">
+          <a class="nav-link" href="/logout/">当前在线：{{ request.session.user_id }} / 注销</a>
+          </li>
+              {% else %}
+                  <li><a class="nav-link" href="/login/">Sign in</a></li>
+              {% endif %}
+
+      </ul>
+    </nav>
+
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+          {% block sidebar %}
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link" href="/books/">
+                  <span data-feather="home"></span>
+                  主页
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/search/">
+                  <span data-feather="file"></span>
+                  查书
+                </a>
+              </li>
+
+            </ul>
+
+              {% if request.session.is_login %}
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+              <span>管理板块</span>
+              <a class="d-flex align-items-center text-muted" href="#">
+                <span data-feather="plus-circle"></span>
+              </a>
+            </h6>
+            <ul class="nav flex-column mb-2">
+                <li class="nav-item">
+                <a class="nav-link" href="/borrow_book/">
+                  <span data-feather="shopping-cart"></span>
+                  借书
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/return_book/">
+                  <span data-feather="users"></span>
+                  还书
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/book_manage/">
+                  <span data-feather="file-text"></span>
+                  图书入库
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/card/">
+                  <span data-feather="file-text"></span>
+                  借书证管理
+                </a>
+              </li>
+            </ul>
+              {% endif %}
+          {% endblock %}
+          </div>
+        </nav>
+        </div>
+
+        {% block content %}
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          {% if request.session.is_login %}
+            <h1>Hello, {{ request.session.user_name }}！</h1>
+            {% else %}
+            <h1>你尚未登录!</h1>
+            <a class="btn btn-primary" href="/login/" role="button">Log in</a>
+            {% endif %}
+          </div>
+        </main>
+        {% endblock %}
+
+
+      </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
+
+  </body>
+</html>

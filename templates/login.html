@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}Log In{% endblock %}
+{% block css %}
+<link href="{% static 'css/main.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
+        <div class="lib_cover">
+            <div class="word">
+                <h2>Welcome To Mini Online Library!</h2>
+                <p>You can search, borrow, return books.</p>
+            </div>
+        </div>
+
+        <div class = "col-md-4 card">
+          <form class="form-signin" action="/login/" method="post">
+              {% if message %}
+            <div class="alert alert-warning">
+                <a href="#" class="close" data-dismiss="alert">
+                    &times;
+                </a>
+                <span>{{ message }}</span>
+            </div>
+            {% endif %}
+            {% csrf_token %}
+      <a href="/index/"><img class="mb-4" src="/static/imgs/reading.png" alt="" width="72" height="72"></a>
+      <h1 class="h3 mb-3 font-weight-normal">
+          Please log in
+      </h1>
+      <label for="inputId" class="sr-only">
+          User ID
+      </label>
+      <input type="text" id="inputId" name="user_id" class="form-control" placeholder="User ID" required autofocus>
+      <label for="inputPassword" class="sr-only">
+          Password
+      </label>
+      <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+      <br/>
+
+        <!--<a class=" btn btn-outline-secondary" href="/index/" role="button">Visitor</a>-->
+        <button class=" btn btn-lg btn-primary btn-block" type="submit">Admin Login</button>
+
+        </form>
+      </div>
+    </div>
+
+    <br><br>
+    <footer class="text-center mt-auto">
+        <div class="inner">
+          <p>© Created by <a href="#">Mihu</a></p>
+        </div>
+      </footer>
+
+
+{% endblock %}
+

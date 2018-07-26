@@ -1,0 +1,114 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+{% block title %}{% endblock %}
+{% block css %}{% endblock %}
+
+{% block content %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">借书卡管理</h1>
+
+</div>
+
+<form action="/card/" method="post">{% csrf_token %}
+    <p>Note: 添加借书卡需输入所有字段；删除必须输入卡号。</p>
+  <div class="form-row" >
+    <div class="col-md-4 mb-3">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">卡号</span>
+        </div>
+        <input type="text" class="form-control" id="CardNo" name="cno" placeholder="cno" aria-describedby="inputGroupPrepend">
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">姓名</span>
+        </div>
+        <input type="text" class="form-control" id="CardName" name="name" placeholder="name" aria-describedby="inputGroupPrepend">
+      </div>
+    </div>
+    </div>
+
+    <div class="form-row" >
+    <div class="col-md-4 mb-3">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">单位</span>
+        </div>
+        <input type="text" class="form-control" id="CardDepartment" name="department" placeholder="department" aria-describedby="inputGroupPrepend">
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">类别</span>
+        </div>
+      <select class="custom-select" id="inputGroupSelect" name="type">
+        <option selected value="">Choose...</option>
+        <option value="T">T</option>
+        <option value="G">G</option>
+        <option value="U">U</option>
+        <option value="O">O</option>
+      </select>
+      </div>
+    </div>
+    </div>
+
+  <input class="btn btn-success" type="submit" value="添加" name="btn_add">
+  <input class="btn btn-primary" type="submit" value="查找" name="btn_search">
+  <input class="btn btn-danger" type="submit" value="删除" name="btn_delete">
+    <input class="btn btn-warning" type="submit" value="显示所有" name="btn_show">
+
+    <hr>
+{% if messages %}
+{% for message in messages %}
+{% if message.tags == "success" %}
+<div class="alert alert-success col-md-3">
+    <a href="#" class="close" data-dismiss="alert">
+        &times;
+    </a>
+    <span>{{ message }}</span>
+</div>
+{% else %}
+<div class="alert alert-danger col-md-3">
+    <a href="#" class="close" data-dismiss="alert">
+        &times;
+    </a>
+    <span>{{ message }}</span>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+</form>
+
+<!--search result -->
+{% if cards %}
+<br/>
+<div class="table-responsive">
+<table class="table table-striped table-sm">
+  <thead>
+    <th>卡号</th>
+    <th>姓名</th>
+    <th>单位</th>
+    <th>类别</th>
+    <th>操作</th>
+  </thead>
+  <tbody>
+  {% for row in cards %}
+  <tr>
+    <td> {{ row.cno }} </td>
+    <td> {{ row.name }} </td>
+    <td> {{ row.department}} </td>
+    <td> {{ row.type }} </td>
+    <td>
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endif %}
+</main>
+{% endblock%}

@@ -1,0 +1,124 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+{% block title %}{% endblock %}
+{% block css %}{% endblock %}
+
+{% block content %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">所有书籍</h1>
+    <form action="/books/sort_books/" method="post">{% csrf_token %}
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+            <button class="btn btn-sm btn-outline-secondary">Sort By</button>
+            <input class="disabled btn btn-sm btn-outline-secondary" type="submit" value="书号" name="order_bno">
+            <input class="disabled btn btn-sm btn-outline-secondary" type="submit" value="书名" name="order_title">
+
+        </div>
+        <div class="dropdown">
+          <button class="disabled btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            年份
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <input class="btn btn-sm btn-outline-secondary dropdown-item" type="submit" value="时间 ↑" name="time_up">
+              <input class="btn btn-sm btn-outline-secondary dropdown-item" type="submit" value="时间 ↓" name="time_down">
+          </div>
+        </div>
+
+        <div class="dropdown">
+          <button class="disabled btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            价格
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <input class="btn btn-sm btn-outline-secondary dropdown-item" type="submit" value="价格 ↑" name="price_up">
+              <input class="btn btn-sm btn-outline-secondary dropdown-item" type="submit" value="价格 ↓" name="price_down">
+          </div>
+        </div>
+
+    </div>
+    </form>
+</div>
+
+<br/>
+<div class="table-responsive">
+<table class="table table-striped table-sm">
+  <thead>
+    <th>书号</th>
+    <th>类别</th>
+    <th>书名</th>
+    <th>出版社</th>
+    <th>年份</th>
+    <th>作者</th>
+    <th>价格</th>
+    <th>数量</th>
+    <th>状态</th>
+  </thead>
+  <tbody>
+  {% for row in pagination.objs %}
+  <tr>
+    <td> {{ row.bno }} </td>
+    <td> {{ row.category }} </td>
+    <td> {{ row.title}} </td>
+      <td> {{ row.press}} </td>
+      <td> {{ row.year}} </td>
+      <td> {{ row.author}} </td>
+      <td> {{ row.price}} </td>
+      <td> {{ row.stock}} </td>
+      {% if row.stock > 0 %}
+      <td> <button type="button" class="btn btn-primary btn-sm">可借</button></td>
+      {% else %}
+      <td> <button type="button" class="btn btn-secondary btn-sm">缺货</button></td>
+      {% endif %}
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+    <!--页码-->
+    <nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center">
+   {% if pagination.cur_page != 1 %}
+    <li class="page-item"><a class="page-link" href="?cur_page=1">首页</a></li>
+    <li class="page-item">
+      <a class="page-link" href="?cur_page={{ pagination.pre_page }}" aria-label="Previous">
+        <span aria-hidden="true"><<</span>
+      </a>
+    </li>
+      {% else %}
+      <li class="page-item disabled"><a class="page-link" href="?cur_page=1">首页</a></li>
+    <li class="page-item disabled">
+      <a class="page-link" href="?cur_page={{ pagination.pre_page }}" aria-label="Previous">
+        <span  aria-hidden="true"><<</span>
+      </a>
+    </li>
+   {% endif %}
+   {% for page_item in pagination.page_items %}
+    {% if page_item == pagination.cur_page %}
+        <li class="page-item active" ><a class="page-link" href="?cur_page={{ page_item }}">{{ page_item }}</a></li>
+    {% else %}
+        <li class="page-item" ><a class="page-link" href="?cur_page={{ page_item }}">{{ page_item }}</a></li>
+    {% endif %}
+   {% endfor%}
+   {% if pagination.cur_page != pagination.all_page %}
+    <li class="page-item">
+      <a class="page-link" href="?cur_page={{ pagination.next_page }}" aria-label="Next">
+        <span aria-hidden="true">>></span>
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link" href="?cur_page={{ pagination.all_page }}">尾页</a></li>
+      {% else %}
+      <li class="page-item disabled">
+      <a class="page-link" href="?cur_page={{ pagination.next_page }}" aria-label="Next">
+        <span aria-hidden="true">>></span>
+      </a>
+    </li>
+    <li class="page-item  disabled"><a class="page-link" href="?cur_page={{ pagination.all_page }}">尾页</a></li>
+   {% endif %}
+  </ul>
+</nav>
+
+
+</div>
+</main>
+
+{% endblock %}

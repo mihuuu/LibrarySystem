@@ -1,0 +1,117 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+{% block title %}search{% endblock %}
+{% block css %}{% endblock %}
+
+{% block content %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+<h1 class="h2">搜索图书</h1>
+<div class="btn-toolbar mb-2 mb-md-0">
+  <div class="btn-group mr-2">
+    <button class="btn btn-sm btn-outline-secondary">时间排序</button>
+    <button class="btn btn-sm btn-outline-secondary">书名排序</button>
+  </div>
+</div>
+</div>
+
+<!--类别, 书名, 出版社, 年份(年份区间), 作者, 价格(区间)-->
+<form class="form-search" action="/search/" method="post">{% csrf_token %}
+  <div class="form-row" >
+    <div class="form-group col-md-3">
+      <label for="inputCategory">类别</label>
+      <input type="text" class="form-control" id="inputCategory" placeholder="" name="category">
+    </div>
+    <div class="form-group col-md-3">
+      <label for="inputTitle">书名</label>
+      <input type="text" class="form-control" id="inputTitle" placeholder="" name="title">
+    </div>
+    <div class="form-group col-md-3">
+      <label for="inputPress">出版社</label>
+      <input type="text" class="form-control" id="inputPress" placeholder="" name="press">
+    </div>
+  </div>
+  <div class="form-row">
+     <div class="form-group col-md-3">
+      <label for="inputAuthor">作者</label>
+      <input type="text" class="form-control" id="inputAuthor" name="author">
+    </div>
+    <div class="form-group col-md-1">
+      <label>年份区间</label>
+      <input type="text" class="form-control" id="inputYear1" name="year_from" placeholder="">
+    </div>
+    <div class="form-group col-md-1">
+      <label>...</label>
+      <input type="text" class="form-control" id="inputYear2" name="year_to" placeholder="">
+    </div>
+      <div class="form-group col-md-1">
+    </div>
+    <div class="form-group col-md-1">
+        <label>价格区间</label>
+        <input type="text" class="form-control" id="inputPrice1" name="price_from" placeholder="￥">
+    </div>
+    <div class="form-group col-md-1">
+        <label>...</label>
+        <input type="text" class="form-control" id="inputPrice2" name="price_to" placeholder="￥">
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Search</button>
+  <button type="reset" class="btn btn btn-outline-warning">Clear</button>
+</form>
+
+<!--result table-->
+{% if ok_message %}
+
+<br/>
+<div class="table-responsive">
+<table class="table table-striped table-sm">
+  <thead>
+    <th>书号</th>
+    <th>类别</th>
+    <th>书名</th>
+    <th>出版社</th>
+    <th>年份</th>
+    <th>作者</th>
+    <th>价格</th>
+    <th>数量</th>
+    <th>状态</th>
+  </thead>
+  <tbody>
+  {% for row in search_books %}
+  <tr>
+    <td> {{ row.bno }} </td>
+    <td> {{ row.category }} </td>
+    <td> {{ row.title}} </td>
+      <td> {{ row.press}} </td>
+      <td> {{ row.year}} </td>
+      <td> {{ row.author}} </td>
+      <td> {{ row.price}} </td>
+      <td> {{ row.stock}} </td>
+      {% if row.stock > 0 %}
+      <td> <button type="button" class="btn btn-primary btn-sm">可借</button></td>
+      {% else %}
+      <td> <button type="button" class="btn btn-secondary btn-sm">缺货</button></td>
+      {% endif %}
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% elif message %}
+<br>
+    <div class="alert alert-warning col-md-3">
+                <a href="#" class="close" data-dismiss="alert">
+                    &times;
+                </a>
+                <span>{{ message }}</span>
+    </div>
+
+{% endif %}
+
+
+
+
+
+</main>
+{% endblock %}
