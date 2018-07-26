@@ -2,7 +2,7 @@
 
 ### 项目概要
 
-本项目设计并实现了一个精简的图书管理系统，具有图书入库、查询、借书、还书、借书证管理等功能。
+这是数据库的期中project，设计并实现了一个精简的图书管理系统，具有图书入库、查询、借书、还书、借书证管理等功能。
 
 实现方式：web网页。后端框架使用**django**(python)，连接**mysql**数据库（本地），前端使用**bootstrap**。
 
@@ -24,13 +24,13 @@ http://127.0.0.1:8000/login/
 
 * 登录
 
-![landing](screenshots\landing.png)
+![landing](screenshots/landing.png)
 
 <br/>
 
 * 主页
 
-![books](screenshots\books.png)
+![books](screenshots/books.png)
 
 
 <br/>
@@ -40,7 +40,7 @@ http://127.0.0.1:8000/login/
   - 可对书的类别, 书名, 出版社, 年份, 作者, 价格进行查询，支持多条件查询
   - 可按条件对图书进行排序
 
-![search](screenshots\search.png)
+![search](screenshots/search.png)
 
 <br/>
 
@@ -48,7 +48,7 @@ http://127.0.0.1:8000/login/
   - 输入借书证卡号，显示该借书证所有已借书籍
   - 输入书号，如果该书还有库存，则借书成功，同时库存数减一；否则输出该书无库存，借书失败
 
-![borrow](screenshots\borrow.png)
+![borrow](screenshots/borrow.png)
 
 <br/>
 
@@ -62,7 +62,7 @@ http://127.0.0.1:8000/login/
   - 单本入库
   - 批量入库（支持csv）
 
-![add](screenshots\add.png)
+![add](screenshots/add.png)
 
 <br/>
 
